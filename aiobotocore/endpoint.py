@@ -102,15 +102,6 @@ class AioEndpoint(botocore.endpoint.Endpoint):
     @asyncio.coroutine
     def _send_request(self, request_dict, operation_model):
 
-        # install content-type header if not provided
-        headers = request_dict['headers']
-        for key in headers.keys():
-            if key.lower().startswith('content-type'):
-                break
-        else:
-            request_dict['headers']['Content-Type'] = \
-                'application/octet-stream'
-
         attempts = 1
         request = self.create_request(request_dict, operation_model)
         success_response, exception = yield from self._get_response(
